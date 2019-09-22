@@ -15,7 +15,8 @@
     "navigator": "readonly",
     "window": "readonly",
     "rcxMain": "readonly",
-    "rcxDict": "readonly"
+    "rcxDict": "readonly",
+    "TTS": "readonly"
   },
 
   "rules": {

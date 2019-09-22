@@ -363,11 +363,11 @@ if (0) {
 
 			// Skip Zero-width non-joiner used in Google Docs between every
 			// character.
-			if (u == 8204) {
+			if (u === 8204) {
 				p = 0;
 				continue;
 			}
-			
+
 			if (u <= 0x3000) break;
 
 			// full-width katakana to hiragana
@@ -623,13 +623,9 @@ if (0) {
 		b = a[1].split(' ');
 		for (i = 0; i < b.length; ++i) {
 			if (b[i].match(/^([A-Z]+)(.*)/)) {
-				if (!entry.misc[RegExp.$1])
-					entry.misc[RegExp.$1] = RegExp.$2;
-				else
-					entry.misc[RegExp.$1] += ' ' + RegExp.$2;
-				//format heisig keyword additions prettily
-				if(RegExp.$1.startsWith('L'))
-					entry.misc[RegExp.$1] = entry.misc[RegExp.$1].replace(/[:_]/g, ' ');
+				if (!entry.misc[RegExp.$1]) { entry.misc[RegExp.$1] = RegExp.$2; } else { entry.misc[RegExp.$1] += ' ' + RegExp.$2; }
+				// format heisig keyword additions prettily
+				if (RegExp.$1.startsWith('L')) { entry.misc[RegExp.$1] = entry.misc[RegExp.$1].replace(/[:_]/g, ' '); }
 			}
 		}
 
@@ -735,13 +731,13 @@ if (0) {
 			nums = '';
 			j = 0;
 
-			kanjiInfo = rcxMain.config.kanjiInfo;
-			for (i = 0; i*2 < this.kanjiInfoLabelList.length; i++) {
-				c = this.kanjiInfoLabelList[i*2];
+			var kanjiInfo = rcxMain.config.kanjiInfo;
+			for (i = 0; i * 2 < this.kanjiInfoLabelList.length; i++) {
+				c = this.kanjiInfoLabelList[i * 2];
 				if (kanjiInfo[c]) {
 					s = entry.misc[c];
 					c = ' class="k-mix-td' + (j ^= 1) + '"';
-					nums += '<tr><td' + c + '>' + this.kanjiInfoLabelList[i*2 + 1] + '</td><td' + c + '>' + (s ? s : '-') + '</td></tr>';
+					nums += '<tr><td' + c + '>' + this.kanjiInfoLabelList[i * 2 + 1] + '</td><td' + c + '>' + (s || '-') + '</td></tr>';
 				}
 			}
 			if (nums.length) nums = '<table class="k-mix-tb">' + nums + '</table>';
@@ -813,10 +809,9 @@ if (0) {
 			var pK = '';
 			k = undefined;
 
-			if (!entry.index)
-				entry.index = 0;
+			if (!entry.index) { entry.index = 0; }
 
-			if (entry.index != 0) b.push('<span class="small-info">... (\'j\' for more)</span><br/>');
+			if (entry.index !== 0) b.push('<span class="small-info">... (\'j\' for more)</span><br/>');
 
 			for (i = entry.index; i < Math.min((rcxMain.config.maxDictEntries + entry.index), entry.data.length); ++i) {
 				e = entry.data[i][0].match(/^(.+?)\s+(?:\[(.*?)\])?\s*\/(.+)\//);
@@ -849,8 +844,8 @@ if (0) {
 
 				s = e[3];
 				t = s.replace(/\//g, '; ');
-				if (/* !this.config.wpos */false) t = t.replace(/^\([^)]+\)\s*/, '');
-				if (/* !this.config.wpop */false) t = t.replace('; (P)', '');
+				// if (/* !this.config.wpos */false) t = t.replace(/^\([^)]+\)\s*/, '');
+				// if (/* !this.config.wpop */false) t = t.replace('; (P)', '');
 				if (!rcxMain.config.onlyreading) {
 					t = '<br/><span class="w-def">' + t + '</span><br/>';
 				} else {
@@ -919,10 +914,8 @@ if (0) {
 
 			for (i = 0; i < this.kanjiInfoLabelList.length; i += 2) {
 				e = this.kanjiInfoLabelList[i];
-				if (/* this.config.kdisp[e] */1 == 1) {
-					j = entry.misc[e];
-					b.push(this.kanjiInfoLabelList[i + 1].replace('&amp;', '&') + '\t' + (j ? j : '-') + '\n');
-				}
+				j = entry.misc[e];
+				b.push(this.kanjiInfoLabelList[i + 1].replace('&amp;', '&') + '\t' + (j || '-') + '\n');
 			}
 		} else {
 			if (max > entry.data.length) max = entry.data.length;
