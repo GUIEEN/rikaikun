@@ -5,7 +5,8 @@
         "webextensions": true
     },
     "extends": [
-        "google"
+        "google",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
